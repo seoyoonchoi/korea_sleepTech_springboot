@@ -4,8 +4,8 @@ import com.example.korea_sleepTech_springboot.common.ApiMappingPattern;
 import com.example.korea_sleepTech_springboot.dto.request.CommentCreateRequestDto;
 import com.example.korea_sleepTech_springboot.dto.request.CommentUpdateRequestDto;
 import com.example.korea_sleepTech_springboot.dto.response.CommentResponseDto;
+import com.example.korea_sleepTech_springboot.dto.response.ResponseDto;
 import com.example.korea_sleepTech_springboot.service.CommentService;
-import com.example.korea_sleepTech_springboot.시험.dto.response.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,32 +16,39 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ApiMappingPattern.COMMENT_API)
 @RequiredArgsConstructor
 public class CommentController {
+    // 댓글
+    // : CUD
+
     private final CommentService commentService;
 
+    // 1) 댓글 생성
     @PostMapping
     public ResponseEntity<ResponseDto<CommentResponseDto>> createComment(
             @PathVariable Long postId,
-            @Valid @RequestBody CommentCreateRequestDto dto){
-        ResponseDto<CommentResponseDto> response = commentService.createComment(postId,dto);
+            @Valid @RequestBody CommentCreateRequestDto dto
+    ) {
+        ResponseDto<CommentResponseDto> response = commentService.createComment(postId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    // 2) 댓글 수정
     @PutMapping("/{commentId}")
     public ResponseEntity<ResponseDto<CommentResponseDto>> updateComment(
             @PathVariable Long postId,
             @PathVariable Long commentId,
-            @RequestBody CommentUpdateRequestDto dto
-            ){ ResponseDto<CommentResponseDto> responseDto = commentService.updateComment(postId,commentId,dto);
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+            @Valid @RequestBody CommentUpdateRequestDto dto
+    ) {
+        ResponseDto<CommentResponseDto> response = commentService.updateComment(postId, commentId, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping ("/{commentId}")
+    // 3) 댓글 삭제
+    @DeleteMapping("/{commentId}")
     public ResponseEntity<ResponseDto<Void>> deleteComment(
             @PathVariable Long postId,
             @PathVariable Long commentId
-    ){ ResponseDto<CommentResponseDto> responseDto = commentService.deleteComment(postId, commentId);
+    ) {
+        ResponseDto<Void> response = commentService.deleteComment(postId, commentId);
         return ResponseEntity.noContent().build();
     }
-
-
 }
