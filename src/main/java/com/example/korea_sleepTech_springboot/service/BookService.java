@@ -22,7 +22,10 @@ public class BookService {
 
         try {
             C_Book newBook = new C_Book(
-                    null, requestDto.getWriter(), requestDto.getTitle(), requestDto.getContent(), requestDto.getCategory()
+                    null, requestDto.getWriter(),
+                    requestDto.getTitle(),
+                    requestDto.getContent(),
+                    requestDto.getCategory()
             );
 
             C_Book savedBook = bookRepository.save(newBook);
